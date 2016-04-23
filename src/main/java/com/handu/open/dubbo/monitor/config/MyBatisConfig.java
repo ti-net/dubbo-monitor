@@ -46,6 +46,8 @@ public class MyBatisConfig implements ApplicationContextAware {
     private static final String DB_URL = "db.url";
     private static final String DB_USERNAME = "db.username";
     private static final String DB_PASSWORD = "db.password";
+    private static final String DB_INITIAL_SIZE = "db.initialSize";
+    private static final String DB_MIN_IDLE = "db.minIdle";
     private static final String DB_MAX_ACTIVE = "db.maxActive";
 
     @Bean
@@ -53,12 +55,16 @@ public class MyBatisConfig implements ApplicationContextAware {
         final String url = Preconditions.checkNotNull(env.getProperty(DB_URL));
         final String username = Preconditions.checkNotNull(env.getProperty(DB_USERNAME));
         final String password = env.getProperty(DB_PASSWORD);
-        final int maxActive = Integer.parseInt(env.getProperty(DB_MAX_ACTIVE, "200"));
+        final int initialSize = Integer.parseInt(env.getProperty(DB_INITIAL_SIZE, "5"));
+        final int minIdle = Integer.parseInt(env.getProperty(DB_MIN_IDLE, "5"));
+        final int maxActive = Integer.parseInt(env.getProperty(DB_MAX_ACTIVE, "10"));
 
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl(url);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
+        dataSource.setInitialSize(initialSize);
+        dataSource.setMinIdle(minIdle);
         dataSource.setMaxActive(maxActive);
 
         return dataSource;
@@ -68,7 +74,7 @@ public class MyBatisConfig implements ApplicationContextAware {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource());
-        factoryBean.setMapperLocations(context.getResources("classpath*:mappers/**/*.xml"));
+        factoryBean.setMapperLocations(context.getResources("classpath*:mappers/**/*-postgresql.xml"));
         return factoryBean.getObject();
     }
 

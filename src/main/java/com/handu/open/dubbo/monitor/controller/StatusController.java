@@ -18,6 +18,7 @@ package com.handu.open.dubbo.monitor.controller;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.status.Status;
 import com.alibaba.dubbo.common.status.StatusChecker;
+import com.alibaba.dubbo.common.threadpool.ThreadPool;
 import com.handu.open.dubbo.monitor.domain.DubboStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +40,7 @@ public class StatusController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String status(Model model) {
+    	Set<String> names2=ExtensionLoader.getExtensionLoader(ThreadPool.class).getSupportedExtensions();
         List<DubboStatus> rows = new ArrayList<DubboStatus>();
         Set<String> names = ExtensionLoader.getExtensionLoader(StatusChecker.class).getSupportedExtensions();
         DubboStatus dubboStatus;
