@@ -2,7 +2,7 @@
 <configuration>
 	<contextName>dubbo-monitor</contextName>
 	<property name="contextName" value="dubbo-monitor" />
-	<property name="logHome" value="/var/log/clink" />
+	<property name="logHome" value="/var/log/cti-link" />
 	<jmxConfigurator />
 
 	<!-- 输出到控制台 -->
