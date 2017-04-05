@@ -33,3 +33,8 @@ CREATE INDEX dubbo_invoke_method_index
   ON dubbo_invoke
   USING btree
   (method );
+  
+CREATE INDEX dubbo_invoke_time_index
+  ON dubbo_invoke
+  USING btree
+  (invoke_time );
